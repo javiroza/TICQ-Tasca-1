@@ -11,7 +11,7 @@ alfabet = {"-":0.17,"E":0.13,"A":0.12,"I":0.07,"S":0.06,"O":0.06,"R":0.05,"L":0.
 huffman_alfabet = {"-":"100","E":"110","A":"010","I":"1010","S":"1110","O":"0110","R":"0000","L":"0001","N":"0010","T":"10111","U":"10110","D":"11110","C":"01110","M":"00111","P":"00110","V":"011110","Q":"111110","B":"111111","G":"111110","F":"0111110","H":"11111110","X":"01111111","Y":"11111110","J":"111111110","Ç":"1111111110","Z":"11111111110","K":"111111111110","W":"111111111111"}
 
 simbols = list()
-m = 2000000
+m = 200000
 
 def decide(r):
     s = 0
@@ -31,8 +31,9 @@ def generador(m):
     long_mitjana = l/m
     return (simbols,long_mitjana)
 
-#(llista,lmitj) = generador(m)
-
+(llista,lmitj) = generador(m)
+print("APARTAT 1")
+print("Longitud mitjana calculada sobre "+str(m)+" símbols: "+str(lmitj)+"\n")
 
 """ C.2 """
 simbols = [key for key in alfabet]
@@ -69,5 +70,6 @@ def canal(missatge,p):
     return (missatge_prima,"".join(v))
 
 (missatge_original,missatge_filtrat)=canal(alfabet[simbol_aleatori],p)
+print("APARTAT 2")
 print("Missatge 1: "+missatge_original)
 print("Missatge 2: "+missatge_filtrat)
