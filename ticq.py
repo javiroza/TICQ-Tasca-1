@@ -14,6 +14,7 @@ simbols = list()
 m = 200000
 
 def decide(r):
+    """Returns a random symbol of dictionary 'alfabet'"""
     s = 0
     for value in alfabet:
         s += alfabet[value]
@@ -21,6 +22,7 @@ def decide(r):
             return value
 
 def generador(m):
+    """Returns a list with m random symbols from dictionary 'alfabet'"""
     l = 0
     for i in range(0,m):
         r = random.random()
@@ -53,13 +55,14 @@ def paritat(binari):
         return 1
 
 def flip(bit):
+    """Returns a bit flipped with respect to the given one"""
     if str(bit) == "1":
         return "0"
     else:
         return "1"
 
 def canal(missatge,p):
-    """Returns a message that has passed a noise filter"""
+    """Returns a tuple with the original message and the one that has passed a noise filter"""
     missatge_prima = str(missatge)+str(paritat(missatge))
     v = list(missatge_prima)
     for digit in missatge:
@@ -72,4 +75,41 @@ def canal(missatge,p):
 (missatge_original,missatge_filtrat)=canal(alfabet[simbol_aleatori],p)
 print("APARTAT 2")
 print("Missatge 1: "+missatge_original)
-print("Missatge 2: "+missatge_filtrat)
+print("Missatge 2: "+missatge_filtrat+"\n")
+
+# Càlcul de B.3
+k = 50000
+p = 0.1
+
+def calculb3(p,k):
+    """Returns the probability of a message being altered"""
+    p_incorrecte = 0
+    for i in range(0,k):
+        (m1,m2)=canal(alfabet[random.choice(simbols)],p)
+        if m1[:5] != m2[:5]:
+            p_incorrecte += 1
+    return p_incorrecte/k
+
+print("P(incorrecte),p="+str(p)+": "+str(calculb3(p,k)))
+
+# Càlcul de B.4
+k = 500000
+p = 0.01
+
+def faildetected(m1,m2):
+    """Returns True or False"""
+    return True if paritat(m2[:5]) != int(m2[5]) else False
+
+def calculb4(p,k):
+    n_detectats = 0
+    n_erronis = 0
+    
+    for i in range(0,k):
+        (m1,m2)=canal(alfabet[random.choice(simbols)],p)
+        if m1[:5] != m2[:5]: # No comptem el cas en què només canvia el bit de paritat
+            n_detectats += 1 if faildetected(m1,m2) else 0
+            n_erronis += 1 
+        
+    return 100*float(n_detectats)/float(n_erronis)
+
+print("Es detecten els errors en un: "+str(format(float(calculb4(p,k)),'.2f')+"%"))
