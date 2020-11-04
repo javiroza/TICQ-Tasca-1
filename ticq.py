@@ -40,7 +40,7 @@ print("Longitud mitjana calculada sobre "+str(m)+" símbols: "+str(lmitj)+"\n")
 """ C.2 """
 simbols = [key for key in alfabet]
 alfabet = {simbol:format(simbols.index(simbol),'05b') for simbol in simbols}
-p = 0.1
+p = 0.8
 simbol_aleatori = random.choice(simbols)
 
 def paritat(binari):
@@ -59,10 +59,12 @@ def canal(missatge,p):
     """Returns a tuple with the original message and the one that has passed a noise filter"""
     missatge_prima = str(missatge)+str(paritat(missatge))
     v = list(missatge_prima)
-    for digit in missatge:
+    counter = 0
+    for digit in missatge_prima:
         r = random.random()
         if r > 1-p:
-            v[v.index(digit)] = flip(digit)
+            v[counter] = flip(digit)
+        counter += 1
             
     return (missatge_prima,"".join(v))
 
@@ -88,7 +90,7 @@ print("P(incorrecte),p="+str(p)+": "+str(calculb3(p,k)))
 
 # Càlcul de B.4
 k = 50000
-p = 0.1
+p = 0.01
 def faildetected(m1,m2):
     """Returns True or False"""
     return True if paritat(m2[:5]) != int(m2[5]) else False
